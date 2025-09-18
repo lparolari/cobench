@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+docs/
+results/
+scripts/
+docs/boxdiff.gif
+docs/boxdiff.png

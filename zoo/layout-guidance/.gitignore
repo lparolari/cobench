@@ -1,0 +1,6 @@
+example_output/
+example_input/
+outputs/
+__pycache__/
+results/
+
