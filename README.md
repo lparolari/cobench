@@ -1,16 +1,18 @@
-# Layout-Guided Text-to-Image Generation Benchmarks and Evaluation
+# Benchmarking Layout-Guided Diffusion Models through Unified Semantic-Spatial Evaluation in Closed and Open Settings
 
-This repository provides the benchmarks, evaluation tools, and model zoo used in our study on layout-guided text-to-image generative models. It includes both **closed-set** and **open-set** benchmarks, a unified evaluation protocol, and implementations for state-of-the-art layout-guided diffusion models.
+This repository provides the benchmarks, evaluation tools, and model zoo used in our study on the evaluation of layout-guided text-to-image generative models. It includes both **closed-set** and **open-set** benchmarks, the evaluation protocol, and the implementation for six state-of-the-art layout-guided diffusion models.
 
 ## Abstract
 
-Evaluating layout-guided text-to-image generative models requires measuring both semantic alignment with textual prompts and spatial fidelity to prescribed layouts. Existing benchmarks are limited in scale and coverage, hindering systematic comparison and reducing interpretability of model capabilities. In this paper, we introduce a scalable closed-set benchmark (C-Bench), automatically built through a pipeline combining template- and LLM-based prompt generation with constraint-driven layout synthesis. C-Bench spans seven scenarios designed to isolate key generative capabilities and provides varying levels of complexity in both prompt structure and layout. To complement this controlled setting, we propose an open-set benchmark (O-Bench) derived from Flickr30k Entities, enabling evaluation on natural prompts and layouts. We further develop a unified evaluation protocol that combines semantic and spatial accuracy into a single score, enabling consistent model ranking. Using our benchmarks, we conduct a large-scale evaluation of six state-of-the-art layout-guided diffusion models, totaling 319,086 generated and evaluated images. Results show that MIGC achieves the highest overall performance (0.7082 on C-Bench and 0.7548 on O-Bench), establishing it as the most reliable model, particularly in layout alignment. Models trained explicitly with layout information consistently outperform Stable Diffusion–based approaches, which lag significantly behind. Overall, our benchmarks and evaluation protocol provide a scalable and interpretable framework for assessing progress in controllable image generation. Code and benchmarks will be released upon acceptance.
+Evaluating layout-guided text-to-image generative models requires assessing both semantic alignment with textual prompts and spatial fidelity to prescribed layouts. Assessing layout alignment requires collecting fine-grained annotations, which is costly and labor-intensive. Consequently, current benchmarks rarely provide comprehensive layout evaluation and often remain limited in scale or coverage, making model comparison, ranking, and interpretation difficult. In this work, we introduce a closed-set benchmark (C-Bench) designed to isolate key generative capabilities while providing varying levels of complexity in both prompt structure and layout. To complement this controlled setting, we propose an open-set benchmark (O-Bench) that evaluates models using real-world prompts and layouts, offering a measure of semantic and spatial alignment in the wild. We further develop a unified evaluation protocol that combines semantic and spatial accuracy into a single score, ensuring consistent model ranking. Using our benchmarks, we conduct a large-scale evaluation of six state-of-the-art layout-guided diffusion models, totaling 319,086 generated and evaluated images. We establish a model ranking based on their overall performance and provide detailed breakdowns for text and layout alignment to enhance interpretability. Fine-grained analyses across scenarios and prompt complexities highlight the strengths and limitations of current models. Code is available at https://github.com/lparolari/cobench.
 
 ## Project Structure
 
 ```
 .
 ├── benchmarks
+│   ├── instructions
+│   └── notebooks
 ├── eval
 └── zoo
     ├── attention-refocusing
@@ -21,17 +23,26 @@ Evaluating layout-guided text-to-image generative models requires measuring both
     └── sd14
 ```
 
----
+
 
 ## Benchmarks
 
-* **Closed-Set Benchmark (\csb{})**
-  Automatically generated using a combination of template-based and LLM-based prompts with constraint-driven layouts.
+Benchmarks are available in the directory `benchmarks/instructions`. It includes:
+
+* **Closed-Set Benchmark (C-Bench)**
+  Automatically generated using a combination of template-based and LLM-based instructions with constraint-driven layouts.
   Designed to isolate generative capabilities under controlled conditions.
 
-* **Open-Set Benchmark (\osb{})**
+* **Open-Set Benchmark (O-Bench)**
   Derived from Flickr30k Entities to evaluate models on natural prompts and real-world layouts.
   Supports analysis of generalization in unconstrained settings.
+
+The directory `notebooks` contains scripts used to generate our benchmarks. You can modify them to obtain your own version of the benchmark or to scale them to a higher number of examples.
+
+* `generate_obench.ipynb`: Generate O-Bench from Flickr30k test split.
+* `generate_cbench.ipynb`: Generate C-Bench from template-based rules. It includes the prompts used to generate instructions with ChatGPT (Note: To avoid high costs, the script does not generate automatically the instructions. We obtained *complex composition* instructions by prompting ChatGPT via the web interface and manually collected the results).
+* `aggregate.ipynb`: Aggregate the results of the evaluation of a model by scenarios and by number of objects.
+* `visualize_bboxes.ipynb`: Inspect and visualize instructions from a benchmark.
 
 ## Evaluation
 
@@ -54,7 +65,7 @@ This repository includes pre-configured setups for several layout-guided diffusi
 * `MIGC`
 * `sd14`
 
-Each folder contains the necessary scripts and checkpoints for generating images from layout-guided prompts.
+Each folder contains the necessary scripts and checkpoints for generating images from layout-guided instructions.
 
 ## Getting Started
 
@@ -65,13 +76,6 @@ Both evaluation an zoo are self documented and include a readme to easily setup 
 If you use this repository in your research, please cite our paper:
 
 ```
-TBD: under double-blind review
-
-@inproceedings{yourpaper2025,
-  title={Title of Your Paper},
-  author={Your Name et al.},
-  booktitle={Conference Name},
-  year={2025}
-}
+COMING SOON in the proceedings of CVPR Findings
 ```
 
